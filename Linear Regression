@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Jun  2 18:14:51 2020
+
+@author: jthukral
+"""
+
+
+from statsmodels.regression.linear_model import OLS
+import matplotlib.pyplot as mpl
+import numpy as np
+
+A = np.load('gc_rates_1.npz', allow_pickle=True)
+A = A['arr_0']
+X = A
+Y = np.cos(np.arange(1080)/540*np.pi)
+model = OLS(Y, X).fit()
+#model.summary()
+Y_pred1 = np.dot(X, model.params)
+Y = np.sin(np.arange(1080)/540*np.pi)
+model = OLS(Y, X).fit()
+#model.summary()
+Y_pred2 = np.dot(X, model.params)
+mpl.scatter(Y_pred1, Y_pred2)
